@@ -4,11 +4,12 @@ Scripts for analysizing results from the GSearch software: https://github.com/je
 Note: you can directly go to step 3 adn 4 and skip step 1 and 2 for testing the recall of GSearch using several testing genomes. Step 1 and step 2 is to produce ground truth for your query genomes based on blastn-ANI/blastp-AAI.
 
 ## 1. ANI and AAI calculation
-ANI and AAI was calcualted using the ani.rb/aai.rb scripts from the Kostas's lab, which can be found in the scripts directory. Two dependencies must be installed to run the scripts:
+ANI and AAI was calcualted using the ani.rb/aai.rb scripts from the Kostas's lab, which can be found in the scripts directory. Several dependencies must be installed to run the scripts:
 1. Ruby (>v2.7)
 2. [Blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/) (>v2.14.0, ANI computation is faster using new parallelism model in blastn and blastp)
 3. perl
 4. GNU parallel, for fast file processing
+5. python
 
 We provide a bash script to run search of query genomes against database genomes based on aai.rb/ani.rb script
 ```bash
