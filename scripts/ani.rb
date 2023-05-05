@@ -2,7 +2,7 @@
 
 # @author  Luis M. Rodriguez-R
 # @license Artistic-2.0
-
+# modified by Jianshu Zhao for better blast parallelism
 require "optparse"
 require "tmpdir"
 has_rest_client = true

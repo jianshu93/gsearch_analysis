@@ -2,7 +2,7 @@
 
 # @author  Luis M. Rodriguez-R
 # @license Artistic-2.0
-
+# Modified by Jianshu Zhao, for better parallelism
 require 'optparse'
 require 'tmpdir'
 require 'zlib'
