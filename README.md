@@ -43,7 +43,7 @@ git clone https://github.com/jianshu93/gsearch_analysis.git
 ```
 ## Transform results from GSearch output distance to ANI
 According to equation:
-$$ ANI=1+\frac{1}{k}log\frac{2*J}{1+J} $$
+$$ANI=1+\frac{1}{k}log\frac{2*J}{1+J}$$
 
 where J is Jaccard-like index (e.g. Jp from ProbMinHash or J from SetSketch) and k is k-mer size used in gsearch (default 16 for nt and 7 for amino acid). The fourth column of gsearch.answers.txt can be transformed into ANI by using this following script:
 
@@ -56,9 +56,7 @@ awk 'BEGIN{FS=OFS="\t"}{print $3,$7,log((1-$5)*2/(1-$5+1))/16+1}' new.txt > ani.
 
 ```
 
-
 ## Calculate recall based on gsearch.answers.txt and truth found by ani.rb or aai.rb
-
 
 
 
