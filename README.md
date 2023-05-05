@@ -18,7 +18,9 @@ We provide a bash script to run search of query genomes against database genomes
 git clone https://github.com/jianshu93/gsearch_analysis.git
 chmod a+x ./gsearch_analysis/scripts/*
 ### copy to you user path, use system path as an example
-cp ././gsearch_analysis/scripts/* /usr/local/bin/
+cp ./gsearch_analysis/scripts/* /usr/local/bin/
+
+
 ### get GTDB v207 nt genomes and search use ani.rb
 wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release207/207.0/genomic_files_reps/gtdb_genomes_reps_r207.tar.gz
 tar xzvf ./gtdb_genomes_reps_r207.tar.gz
@@ -28,15 +30,16 @@ find ./gtdb_genomes_reps_r207 -name "*.fna.gz" | parallel -j 10 "gunzip {}"
 gunzip ./example/test_data/query_dir_nt/*.gz
 
 find ./gtdb_genomes_reps_r207 -name "*.fna" > gtdb_name.txt
-./scripts/ANI.multiple.comparison.many.pl -i gtdb_name.txt -n ./example/test_data/query_dir_nt/test01.fasta
+./scripts/ANI.multiple.comparison.many.pl -i gtdb_name.txt -n ./example/test_data/query_dir_nt/test01.fasta -o test01_ANI_search.txt
+tail -n +2 test01_ANI_search.txt | sort -k 2 -g -r > test01_ANI_truth.txt
 
 
 ### get GTDB v207 aa genomes and search use aai.rb
 wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release207/207.0/genomic_files_reps/gtdb_proteins_aa_reps_r207.tar.gz
 tar xzvf gtdb_proteins_aa_reps_r207.tar.gz
 find ./gtdb_genomes_aa_reps_r207 -name "*.faa.gz" > gtdb_name_aa.txt
-./scripts/ANI.multiple.comparison.many.pl -i gtdb_name_aa.txt -n ./example/test_data/query_dir_aa/test01.faa.gz
-
+./scripts/ANI.multiple.comparison.many.pl -i gtdb_name_aa.txt -n ./example/test_data/query_dir_aa/test01.faa.gz -o test01_AAI_search.txt
+tail -n +2 test01_AAI_search.txt | sort -k 2 -g -r > test01_AAI_truth.txt
 ```
 
 ## 2. Run GSearch to get gsearch.answers.txt for query genomes against pre-built database
