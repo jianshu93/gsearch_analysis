@@ -93,7 +93,7 @@ initialize();
 readInput($input_list);
 open (OUT, ">", $output_file) or die "Can't open the output file!!\n";
 $file1 =~ s/.fasta//g;
-print OUT "$file1\t\n";
+print OUT "$file1\tani\n";
 my $num_values = scalar @ani_values;
 for (my $i=0; $i < ($num_values - 1) ; $i++) {
   if ($ani_values[$i] eq "NULL") {
