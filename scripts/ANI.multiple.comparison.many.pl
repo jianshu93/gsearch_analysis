@@ -6,7 +6,7 @@
 use strict;
 use Getopt::Long;
 
-#this script inputs a text file with all comparison file names and one file name to compare
+#this script inputs a text file with all comparison file names (path) and one file name (fasta) to compare
 
 sub usage {
   print "\nHow to run this code:\n";
@@ -78,7 +78,7 @@ sub runANI{
     $temp = `ani.rb -1 $file1 -2 $file2 -t 10 -a -q`;
   }
   elsif ($method eq 'aai') {
-    $temp = `aai.rb -1 $file1 -2 $file2 -t 10 -a -q`;
+    $temp = `aai.rb -1 $file1 -2 $file2 -t 10 -p diamond -a -q`;
   }
   $ani_value = "";
   if ($temp eq "") { $ani_value = "NULL"; }

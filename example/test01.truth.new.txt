@@ -1,0 +1,10 @@
+GCA_016703325.1_genomic.fna
+GCA_017992055.1_genomic.fna
+GCF_000969605.1_genomic.fna
+GCF_003201595.1_genomic.fna
+GCF_005403045.1_genomic.fna
+GCF_008329925.1_genomic.fna
+GCF_013294065.1_genomic.fna
+GCF_018069755.1_genomic.fna
+GCF_018069875.1_genomic.fna
+GCF_900156335.1_genomic.fna

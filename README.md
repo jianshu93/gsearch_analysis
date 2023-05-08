@@ -1,7 +1,7 @@
 # Scripts and examples for GSearch paper
 Scripts for analysizing results from the GSearch software: https://github.com/jean-pierreBoth/gsearch
 
-Note: you can directly go to step 3 adn 4 and skip step 1 and 2 for testing the recall of GSearch using several testing genomes. Step 1 and step 2 is to produce ground truth for your query genomes based on blastn-ANI/blastp-AAI.
+Note: you can directly go to step 3 and 4 and skip step 1 and 2 for testing the recall of GSearch using several testing genomes. Step 1 and step 2 is to produce ground truth for your query genomes based on blastn-ANI/blastp-AAI.
 
 ## 1. ANI and AAI calculation
 ANI and AAI was calcualted using the ani.rb/aai.rb scripts from the Kostas's lab, which can be found in the scripts directory. Several dependencies must be installed to run the scripts:
@@ -31,7 +31,7 @@ find ./gtdb_genomes_reps_r207 -name "*.fna.gz" | parallel -j 10 "gunzip {}"
 gunzip ./example/test_data/query_dir_nt/*.gz
 
 find ./gtdb_genomes_reps_r207 -name "*.fna" > gtdb_name.txt
-./scripts/ANI.multiple.comparison.many.pl -i gtdb_name.txt -n ./example/test_data/query_dir_nt/test01.fasta -o test01_ANI_search.txt
+./scripts/ANI.multiple.comparison.many.pl -i gtdb_name.txt -n ./example/test_data/query_dir_nt/test01.fasta -m ani -o test01_ANI_search.txt
 tail -n +2 test01_ANI_search.txt | sort -k 2 -g -r > test01_ANI_truth.txt
 
 
@@ -39,7 +39,7 @@ tail -n +2 test01_ANI_search.txt | sort -k 2 -g -r > test01_ANI_truth.txt
 wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release207/207.0/genomic_files_reps/gtdb_proteins_aa_reps_r207.tar.gz
 tar xzvf gtdb_proteins_aa_reps_r207.tar.gz
 find ./gtdb_genomes_aa_reps_r207 -name "*.faa.gz" > gtdb_name_aa.txt
-./scripts/ANI.multiple.comparison.many.pl -i gtdb_name_aa.txt -n ./example/test_data/query_dir_aa/test01.faa.gz -o test01_AAI_search.txt
+./scripts/ANI.multiple.comparison.many.pl -i gtdb_name_aa.txt -n ./example/test_data/query_dir_aa/test01.faa.gz -m aai -o test01_AAI_search.txt
 tail -n +2 test01_AAI_search.txt | sort -k 2 -g -r > test01_AAI_truth.txt
 ```
 
@@ -72,13 +72,23 @@ where J is Jaccard-like index (e.g. Jp from ProbMinHash or J from SetSketch) and
 cd ./gsearch_analysis
 grep -E "*query_id*" ./example/gsearch.answers.txt > ./example/new.txt
 
-### the $5 column is distance (1 - Jaccard index), transformation is the aove mentioned equation. Output is query name, subject name and ANI
+### the $5 column is distance (1 - Jaccard index), transformation is the above mentioned equation. Output is query name, subject name and ANI
 awk 'BEGIN{FS=OFS="\t"}{print $3,$7,log((1-$5)*2/(1-$5+1))/16+1}' ./example/new.txt > ./example/ani.txt
 
 ```
 
 ## 4. Calculate recall based on gsearch.answers.txt and true ANI hits found by ani.rb or aai.rb
+```bash
+### prepare files for each query
+### test genome 01 top 10 by gsearch
+grep -E "*test01.fasta.gz*" ./example/gsearch.answers.txt | grep -E "*query_id*" | awk 'BEGIN{FS=OFS="\t"}{print $7}' | awk 'BEGIN{FS="/"}{print $3}' | head -n 10 > test01.answers.top10.txt
+### test genome 02 top 10 by gsearch
+grep -E "*test02.fasta.gz*" ./example/gsearch.answers.txt | grep -E "*query_id*" | awk 'BEGIN{FS=OFS="\t"}{print $7}' | awk 'BEGIN{FS="/"}{print $3}' | head -n 10 > test02.answers.top10.txt
 
+### count differences between neighbors found by GSearch and ground truth for the same query genome, where file_1 and file_2 are best top K target names by GSearch and ground truth respectively.
+
+
+```
 
 
 ## References

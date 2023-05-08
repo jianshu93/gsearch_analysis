@@ -1,0 +1,10 @@
+GCF_000427315.1_genomic.fna.gz
+GCF_009928425.1_genomic.fna.gz
+GCF_001750145.1_genomic.fna.gz
+GCF_007679325.1_genomic.fna.gz
+GCF_001422645.1_genomic.fna.gz
+GCF_001512305.1_genomic.fna.gz
+GCF_007858535.1_genomic.fna.gz
+GCF_013359735.1_genomic.fna.gz
+GCF_005937985.2_genomic.fna.gz
+GCF_004798705.1_genomic.fna.gz

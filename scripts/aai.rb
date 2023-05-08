@@ -325,7 +325,7 @@ Dir.mktmpdir do |dir|
       -i "#{q}" -v 1 -b 1 -a #{o[:thr]} -m 8 -o "#{dir}/#{i}.tab"`
     when "blast+"
       `"#{o[:bin]}blast#{o[:nucl] ? "n" : "p"}" -db "#{s}" -query "#{q}" \
-      -max_target_seqs 1 -num_threads #{o[:thr]} -mt_mode 1 -task blastp-fast -outfmt 6 \
+      -max_target_seqs 1 -num_threads #{o[:thr]} -mt_mode 1 -outfmt 6 \
       -out "#{dir}/#{i}.tab"`
     when "blat"
       `"#{o[:bin]}blat" "#{s}" "#{q}" #{"-prot" unless o[:nucl]} -out=blast8 \
