@@ -1,0 +1,50 @@
+Sourmash (v4.2.3):
+
+(1) create sketches:
+find ./gtdb_v207/ -name '*.fna.gz' | parallel -j 24 "sourmash sketch dna -p k=16,noabund {} -o {.}.sourmash"
+
+sourmash sketch dna -p k=16,noabund OceanDNA-b42278.fa -o OceanDNA-b42278.fa.sourmash
+
+(2) Create SBT index from the database sketches in (1):
+sourmash index -k 16 gtdb_sourmash_index --from-file gtdb_v207_sourmash_sketch.sig.txt -q
+
+Note: here gtdb_v207_sourmash_sketch.sig.txt is a list of *.sourmash file from step (1)
+
+(3) Search sketch against (2) SBT index:
+sourmash search --threshold 0.01 --num-results 50 OceanDNA-b42278.fa.sourmash gtdb_sourmash_index.sbt.zip -o OceanDNA-b42278.sourmash.dist.txt
+
+Note: here OceanDNA-b42278.fa.sourmash is obtained by similar commands in (1) but only for this one query genome file. This step takes about 15 minutes for just one query genome (only one thread can be used) in sourmash. We use GNU parallel to run 24 queries at a time.
+
+find ./Tara_query/ -name '*.fna.sourmash' | parallel -j 24 “sourmash search --threshold 0.01 --num-results 50 {} gtdb_sourmash_index.sbt.zip -o {.}.sourmash.dist.txt”
+
+Mash (v2.3):
+(1) Create sketches:
+For nucleotide:
+mash sketch -p 24 -s 12000 -k 16 -o ./query_genome -l query_name.txt
+mash sketch -p 24 -s 12000 -k 16 -o ./reference_genome -l reference_name.txt
+
+For Amino Acid:
+mash sketch -p 24 -s 12000 -k 7 -a -o ./query_genome_aa -l query_name_aa.txt
+mash sketch -p 24 -s 12000 -k 7 -a -o ./reference_genome_aa -l reference_name_aa.txt
+
+
+(2) Compute distance
+mash dist -p 24 query_genome.msh reference_genome.msh > dist.txt
+
+mash dist -p 24 query_genome_aa.msh reference_genome_aa.msh > dist_aa.txt
+
+Dashing (v1.0.2-4-g0635): default HyperLogLog option with Ertl’s Joint MLE estimator
+
+(1) create sketches:
+dashing sketch -k 16 --nthreads 24 -S 14 --suffix dashing_hll --ertl-jmle  -F ./GTDB_nt_name.txt
+
+dashing sketch -k 16 --nthreads 24 -S 14 --suffix dashing_hll --ertl-jmle   -F ./Query_name.txt
+
+Note: here GPD_test10000_nt_name.txt is a list of all bacteria database genomes, -S 14 (14*64) is similar to (or better) -s 12000 in Mash above
+(2) Compute distance:
+dashing dist -F ./GTDB_nt_dashing_sketch.txt -Q Query_nt_name.txt --nthreads 24 --presketched -O dist.txt
+
+Note: here GTDB_nt_dashing_sketch.txt is a list of .hll sketches from step (1) while Query_nt_name.txt is the list of sketches of query genomes generated in similar way to (1).
+
+FastANI (v1.33):
+fastANI --ql query_name.txt  --rl reference_name.txt -t 24 -o ANI.txt
