@@ -88,7 +88,7 @@ grep -E "*test01.fasta.gz*" ./example/gsearch.answers.txt | grep -E "*query_id*"
 grep -E "*test02.fasta.gz*" ./example/gsearch.answers.txt | grep -E "*query_id*" | awk 'BEGIN{FS=OFS="\t"}{print $7}' | awk 'BEGIN{FS="/"}{print $3}' | head -n 10 > test02.answers.top10.txt
 
 ### count intersection between neighbors found by GSearch and ground truth for the same query genome, where file_1 and file_2 are best top K target names by GSearch and ground truth respectively.
-awk 'NR==FNR{a[$1]=1; next} {if($1 in a)print $0}' test01.truth.txt test01.answers.top10.txt | wc -l | awk '{print $1/10}'
+awk 'NR==FNR{a[$1]=1; next} {if($1 in a)print $0}' ./example/test01.truth.txt ./example/test01.answers.top10.txt | wc -l | awk '{print $1/10}'
 
 ```
 
