@@ -95,4 +95,4 @@ awk 'NR==FNR{a[$1]=1; next} {if($1 in a)print $0}' ./example/test01.truth.txt ./
 
 ## References
 
-1. Jianshu Zhao, Jean Pierre Both, Luis M. Rodriguez-R and Konstantinos T. Konstantinidis, 2022. GSearch: Ultra-Fast and Scalable Microbial Genome Search by combining Kmer Hashing with Hierarchical Navigable Small World Graphs. *bioRxiv* 2022:2022.2010.2021.513218. [biorxiv](https://www.biorxiv.org/content/10.1101/2022.10.21.513218v2).
+1. Jianshu Zhao, Jean Pierre Both, Luis M Rodriguez-R, Konstantinos T Konstantinidis, GSearch: ultra-fast and scalable genome search by combining K-mer hashing with hierarchical navigable small world graphs, Nucleic Acids Research, 2024;, gkae609, https://doi.org/10.1093/nar/gkae609.
